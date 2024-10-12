@@ -4,7 +4,7 @@ AI Trainer for sports that helps you do exercises correctly (OpenCV &amp; MediaP
 # To Run
 1. Install modules
 ```
-pip install cv2, mediapipe, numpy, customtkinter
+pip install mediapipe, numpy, customtkinter
 ```
 2. Run ui.py
 ```
