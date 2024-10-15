@@ -6,7 +6,7 @@ import PoseDetectionModule as pdm
 
 
 def AITrainer(image, x1, x2, x3):
-    # capture = cv2.VideoCapture(0)
+    capture = cv2.VideoCapture(0)
 
     pTime = 0
     cTime = 0
@@ -18,24 +18,22 @@ def AITrainer(image, x1, x2, x3):
     while True:
         # Вебкамера
         # ret, img = capture.read()
-        # img = cv2.resize(img, (1280, 720))
+        # img = cv2.resize(img, (1920, 1080))
 
         # Фото
         img = cv2.imread(image)
         img = cv2.resize(img, (1920, 1080))
         
-        
         img = detector.findPose(img)
         lmList = detector.findPosition(img, False)
+
+        # Вывод лендмарок
         # for lm in lmList:
         #     print(lm) 
 
         if len(lmList) != 0:
             # Left Arm
             angle = detector.findAngle(img, x1, x2, x3)
-
-            # Right Arm
-            # angle = detector.findAngle(img, x1, x2, x3)
             
             per = np.interp(angle, (210, 310), (0, 100))
             bar = np.interp(angle, (210, 310), (950, 100))
@@ -60,13 +58,13 @@ def AITrainer(image, x1, x2, x3):
             if count % 1 == 0:
                 print("Повторений: ", round(count))
             
-            # Draw bar
+            # Шкала выполнения
             cv2.rectangle(img, (1800, 100), (1875, 950), color, 5)
             cv2.rectangle(img, (1800, int(bar)), (1875, 950), color, cv2.FILLED)
             cv2.putText(img, f'{int(per)}%', (1800, 75), cv2.FONT_HERSHEY_PLAIN, 
                         4, color, 4)
             
-            # Draw curl count
+            # Счётчик повторений
             # cv2.rectangle(img, (0, 1080), (250, 830), (0, 255, 0), cv2.FILLED)
             cv2.putText(img, str(int(count)), (50, 1030), cv2.FONT_HERSHEY_PLAIN, 
                         15, (0, 255, 0), 25)

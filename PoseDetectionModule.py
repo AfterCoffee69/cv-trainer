@@ -1,7 +1,5 @@
 import cv2
 import mediapipe as mp
-import time
-import keyboard
 import math
 
 class PoseDetector():
@@ -41,12 +39,12 @@ class PoseDetector():
         return self.lmList
     
     def findAngle(self, img, p1, p2, p3, draw=True):
-        # Get the lendmarks
+        # Получить лендмарки
         x1, y1 = self.lmList[p1][1:]
         x2, y2 = self.lmList[p2][1:]
         x3, y3 = self.lmList[p3][1:]
         
-        # Calculate the angle
+        # Подсчёт углов
         angle = math.degrees(
             math.atan2(y3 - y2, x3 - x2) - math.atan2(y1 - y2, x1 - x2))
         if angle < 0:
