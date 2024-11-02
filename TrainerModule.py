@@ -5,7 +5,7 @@ import keyboard as kb
 import PoseDetectionModule as pdm
 
 
-def AITrainer(image, x1, x2, x3):
+def AITrainer(image, x1, x2, x3, direction, startAngle, endAngle):
     capture = cv2.VideoCapture(0)
 
     pTime = 0
@@ -32,14 +32,13 @@ def AITrainer(image, x1, x2, x3):
         #     print(lm) 
 
         if len(lmList) != 0:
-            # Left Arm
-            angle = detector.findAngle(img, x1, x2, x3)
             
-            per = np.interp(angle, (210, 310), (0, 100))
-            bar = np.interp(angle, (210, 310), (950, 100))
+            angle = detector.findAngle(img, x1, x2, x3, direction)
+
+            per = np.interp(angle, (startAngle, endAngle), (0, 100))
+            bar = np.interp(angle, (startAngle, endAngle), (650, 100))
             
-            per = np.interp(angle, (200, 280), (0, 100))
-            bar = np.interp(angle, (200, 280), (650, 100))
+
             print("Угол: ", angle)
             # print("Процент выполнения: ", per)
             
