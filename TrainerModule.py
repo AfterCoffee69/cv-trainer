@@ -17,12 +17,12 @@ def AITrainer(image, x1, x2, x3, direction, startAngle, endAngle):
 
     while True:
         # Вебкамера
-        # ret, img = capture.read()
-        # img = cv2.resize(img, (1920, 1080))
+        ret, img = capture.read()
+        img = cv2.resize(img, (1920, 1080))
 
         # Фото
-        img = cv2.imread(image)
-        img = cv2.resize(img, (1920, 1080))
+        # img = cv2.imread(image)
+        # img = cv2.resize(img, (1920, 1080))
         
         img = detector.findPose(img)
         lmList = detector.findPosition(img, False)
