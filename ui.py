@@ -76,7 +76,7 @@ def choose_user(username):
 
         widgets.pack(side=RIGHT, padx=(10, 15), pady=15, expand=TRUE, fill=BOTH)
         enter.pack_forget()
-        bg_lbl.pack_forget()
+        # bg_lbl.pack_forget()
     except FileNotFoundError:
         print(f"Файл {json_filename} не найден")
 
@@ -104,11 +104,16 @@ def submit():
 
         # profile_button = customtkinter.CTkButton(master=profile_list, text=profile['username'], font=customtkinter.CTkFont(family="Roboto", weight="bold" , size=22), width=500, height=50, command=lambda username=profile['username']: choose_user_on_click(username))
         # profile_button.pack(pady=5)
-        
+        button_frame = customtkinter.CTkFrame(master=profile_list)
+        button_frame.pack(pady=5)
 
-        profile_button = customtkinter.CTkButton(master=profile_list, text=entry_name.get(), font=customtkinter.CTkFont(family="Roboto", weight="bold" , size=22), width=500, height=50, command=lambda username=entry_name.get(): choose_user_on_click(username))
+        profile_button = customtkinter.CTkButton(master=button_frame, text=entry_name.get(), font=customtkinter.CTkFont(family="Roboto", weight="bold" , size=22), width=500, height=50, command=lambda username=entry_name.get(): choose_user_on_click(username))
         profile_button.pack(pady=5)
+        delete_profile_button = customtkinter.CTkButton(master=button_frame, text="Изменить", fg_color="#5d6e01", font=customtkinter.CTkFont(family="Roboto", weight="bold" , size=22), width=100, height=50)
+        delete_profile_button.pack(side="left", padx=5, pady=5)
 
+        delete_profile_button = customtkinter.CTkButton(master=button_frame, text="Удалить", fg_color="red", font=customtkinter.CTkFont(family="Roboto", weight="bold" , size=22), width=100, height=50)
+        delete_profile_button.pack(side="left", padx=5, pady=5)
     else:
         error_label.configure(text='Заполните все поля', text_color='red')
 
@@ -123,7 +128,7 @@ customtkinter.set_widget_scaling(1.5)
 customtkinter.set_window_scaling(1.5)
 
 root = customtkinter.CTk()
-root.geometry('800x600')
+# root.geometry('800x600')
 root.attributes('-fullscreen', True)
 root.bind('<Escape>', exit) 
 
@@ -165,7 +170,7 @@ exit_button.pack(pady=(20,30), padx=10)
 enter = customtkinter.CTkFrame(master=root)
 enter.pack(side=LEFT, padx=(15,15), pady=15, expand=TRUE, fill=BOTH)
 
-enter_label = customtkinter.CTkLabel(master=enter, text="Создание профиля", font=customtkinter.CTkFont(family="Roboto", weight="bold", size=24))
+enter_label = customtkinter.CTkLabel(master=enter, text="Редактировать профиль user1", font=customtkinter.CTkFont(family="Roboto", weight="bold", size=24))
 enter_label.pack(pady=20, padx=10)
 
 entry_name = customtkinter.CTkEntry(master=enter, placeholder_text="Имя", width=400, height=40, state="normal")
@@ -180,7 +185,7 @@ entry_height.pack(pady=5, padx=10)
 entry_weight = customtkinter.CTkEntry(master=enter, placeholder_text="Вес",  width=400, height=40, state="normal")
 entry_weight.pack(pady=5, padx=10)
 
-submit = customtkinter.CTkButton(master=enter, text="Создать",  width=400, height=40, command=submit)
+submit = customtkinter.CTkButton(master=enter, text="Сохранить",  width=400, height=40, command=submit)
 submit.pack(pady=(20,0), padx=10)
 
 error_label = customtkinter.CTkLabel(master=enter, text="", font=customtkinter.CTkFont(family="Roboto", weight="bold", size=12))
@@ -202,7 +207,16 @@ for file in os.listdir(users_folder):
 
 for profile in user_profiles:
 
-    profile_button = customtkinter.CTkButton(master=profile_list, text=profile['username'], font=customtkinter.CTkFont(family="Roboto", weight="bold" , size=22), width=500, height=50, command=lambda username=profile['username']: choose_user_on_click(username))
-    profile_button.pack(pady=5)
+    button_frame = customtkinter.CTkFrame(master=profile_list)
+    button_frame.pack(pady=5)
+
+    profile_button = customtkinter.CTkButton(master=button_frame, text=profile['username'], font=customtkinter.CTkFont(family="Roboto", weight="bold" , size=22), width=500, height=50, command=lambda username=profile['username']: choose_user_on_click(username))
+    profile_button.pack(side="left", padx=5, pady=5)
+
+    delete_profile_button = customtkinter.CTkButton(master=button_frame, text="Изменить", fg_color="#5d6e01", font=customtkinter.CTkFont(family="Roboto", weight="bold" , size=22), width=100, height=50)
+    delete_profile_button.pack(side="left", padx=5, pady=5)
+
+    delete_profile_button = customtkinter.CTkButton(master=button_frame, text="Удалить", fg_color="red", font=customtkinter.CTkFont(family="Roboto", weight="bold" , size=22), width=100, height=50)
+    delete_profile_button.pack(side="left", padx=5, pady=5)
 
 root.mainloop()

@@ -2,7 +2,21 @@ import cv2
 import numpy as np
 import time
 import keyboard as kb
+import threading
+import pygame
+from gtts import gTTS
 import PoseDetectionModule as pdm
+
+def speak_number(num):
+    text = str(num)
+    speech = gTTS(text=text, lang='ru')
+    speech.save(f'audio/{num}.mp3')
+    
+    pygame.mixer.init()
+    pygame.mixer.music.load(f'audio/{num}.mp3')
+    pygame.mixer.music.play()
+    while pygame.mixer.music.get_busy():
+         pygame.time.delay(100)
 
 
 def AITrainer(image, x1, x2, x3, direction, startAngle, endAngle):
@@ -12,8 +26,9 @@ def AITrainer(image, x1, x2, x3, direction, startAngle, endAngle):
     cTime = 0
 
     detector = pdm.PoseDetector() 
-    count = 0
+    count = 0.5
     dir = 0
+    
 
     while True:
         # Вебкамера
@@ -47,15 +62,15 @@ def AITrainer(image, x1, x2, x3, direction, startAngle, endAngle):
             if per >= 95:
                 color = (0, 0, 255)
                 if dir == 0:
-                    count += 0.5
                     dir = 1
             if per <= 5:
                 color = (0, 255, 0)
                 if dir == 1:
                     count += 0.5
                     dir = 0
-            if count % 1 == 0:
-                print("Повторений: ", round(count))
+            if count != 0 and int(count) == count:
+                threading.Thread(target=speak_number, args=(round(count),)).start()
+                count += 0.5
             
             # Шкала выполнения
             cv2.rectangle(img, (1800, 100), (1875, 950), color, 5)
